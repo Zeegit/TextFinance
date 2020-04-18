@@ -1,17 +1,21 @@
-package pf.settings;
+package TextFinance.settings;
 
 import java.util.HashMap;
 
-final public class Test {
+final public class Text {
     private static final HashMap<String, String> data = new HashMap<>();
 
     public static String get(String key) {
-        return data.get(key);
+        if (data.containsKey(key)) {
+            return data.get(key);
+        }
+        System.out.println("Такого ключа не существкет!");
+        return "";
     }
 
     public static String[] getMonths() {
         String[] months = new String[12];
-        months[0] =  data.get("JAN");
+        months[0] = data.get("JAN");
         return months;
     }
 
