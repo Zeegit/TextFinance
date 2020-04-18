@@ -102,7 +102,7 @@ public class TextFinance {
         try {
             ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, Settings.FONT));
         } catch (FontFormatException | IOException e) {
-            Logger.getLogger(PF.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(TextFinance.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 }

@@ -1,6 +1,7 @@
-package pf.model;
+package TextFinance.model;
 
-import pf.exception.ModelException;
+import TextFinance.exception.ModelException;
+import TextFinance.saveload.SaveData;
 
 public class Article extends Common {
     private String title;
@@ -45,6 +46,15 @@ public class Article extends Common {
 
     @Override
     public String getValueForComboBox() {
-         return this.title;
+        return this.title;
+    }
+
+    @Override
+    public void postEdit(SaveData sd) {
+        for (Transaction t : sd.getTransactions()) {
+            if (t.getArticle().equals(sd.getOldCommon())) {
+                t.setArticle(this);
+            }
+        }
     }
 }
