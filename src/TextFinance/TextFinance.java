@@ -1,6 +1,7 @@
 package TextFinance;
 
 import TextFinance.exception.ModelException;
+import TextFinance.gui.MainFrame;
 import TextFinance.model.*;
 import TextFinance.saveload.SaveData;
 import TextFinance.settings.Settings;
@@ -14,9 +15,25 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class TextFinance {
-    public static void main(String[] args) throws ModelException {
+    public static void main(String[] args) throws Exception {
         init();
-        testModel();
+        MainFrame frame = new MainFrame();
+        frame.setVisible(true);
+        //testModel();
+        //SaveData sd = SaveData.getInstance();
+        //sd.updateCurrencies();
+        //System.out.println(sd);
+    }
+
+    private static void init() {
+        try {
+            Settings.init();
+            Text.init();
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, Settings.FONT_ROBOTO_LIGHT));
+        } catch (FontFormatException | IOException ex) {
+            Logger.getLogger(TextFinance.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private static void testModel() throws ModelException {
@@ -96,13 +113,4 @@ public class TextFinance {
         System.out.println(sd);
     }
 
-    private static void init() {
-        Text.init();
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        try {
-            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, Settings.FONT));
-        } catch (FontFormatException | IOException e) {
-            Logger.getLogger(TextFinance.class.getName()).log(Level.SEVERE, null, e);
-        }
-    }
 }

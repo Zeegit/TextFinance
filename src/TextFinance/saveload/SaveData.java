@@ -2,10 +2,9 @@ package TextFinance.saveload;
 
 import TextFinance.exception.ModelException;
 import TextFinance.model.*;
+import TextFinance.model.Currency;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class SaveData {
     private static SaveData instance;
@@ -157,7 +156,7 @@ public class SaveData {
     public Common getOldCommon() {
         return oldCommon;
     }
-    
+
     public void add(Common c) throws ModelException {
         List ref = getRef(c);
         if (ref.contains(c)) {
@@ -181,18 +180,28 @@ public class SaveData {
         isSaved = false;
     }
 
-    private void remove(Common c) {
+    public void remove(Common c) {
         getRef(c).remove(c);
         c.postDelete(this);
         isSaved = false;
     }
 
     private List getRef(Common c) {
-        if (c instanceof Account) { return accounts; }
-        if (c instanceof Article) { return articles; }
-        if (c instanceof Currency) { return currencies; }
-        if (c instanceof Transaction) { return transactions; }
-        if (c instanceof Transfer) { return transfers; }
+        if (c instanceof Account) {
+            return accounts;
+        }
+        if (c instanceof Article) {
+            return articles;
+        }
+        if (c instanceof Currency) {
+            return currencies;
+        }
+        if (c instanceof Transaction) {
+            return transactions;
+        }
+        if (c instanceof Transfer) {
+            return transfers;
+        }
         return null;
     }
 
@@ -205,5 +214,34 @@ public class SaveData {
                 ", transactions=" + transactions +
                 ", transfers=" + transfers +
                 '}';
+    }
+
+    public void updateCurrencies() throws Exception {
+        HashMap<String, Double> rates = RateCurrency.getRates(getBaseCurrency());
+        for (Currency c : currencies)
+            c.setRate(rates.get(c.getCode()));
+        for (Account a : accounts)
+            a.getCurrency().setRate(rates.get(a.getCurrency().getCode()));
+        isSaved = false;
+    }
+
+
+    public ArrayList<Currency> getEnableCurrencies() {
+        ArrayList<Currency> list = new ArrayList();
+        for (Currency c : currencies)
+            if (c.isOn()) list.add(c);
+        return list;
+    }
+
+    public Filter getFilter() {
+        return filter;
+    }
+
+    public void  clear() {
+        articles.clear();
+        accounts.clear();
+        currencies.clear();
+        transactions.clear();
+        transfers.clear();
     }
 }

@@ -14,12 +14,12 @@ import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
 final public class Settings {
-    public static final File FONT = new File("fonts/Roboto-Light.ttf");
+    public static final File FONT_ROBOTO_LIGHT = new File("fonts/Roboto-Light.ttf");
     public static final File SAVE_DIR = new File("saves/");
     public static final String SAVE_FILE_EXT = "sav";
 
-    public static final String FORMAT_AMOUNT = "$.2f";
-    public static final String FORMAT_RATE = "$.4f";
+    public static final String FORMAT_AMOUNT = "%.2f";
+    public static final String FORMAT_RATE = "%.4f";
     public static final String FORMAT_DATE = "dd.MM.yyyy";
     public static final String FORMAT_DATE_MONTH = "MMMM yyyy";
     public static final String FORMAT_DATE_YEAR = "yyyy";

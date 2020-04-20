@@ -6,9 +6,11 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class Filter {
+
     public static final int STEP_DAY = 0;
     public static final int STEP_MONTH = 1;
     public static final int STEP_YEAR = 2;
+
     private int step;
     private Date from;
     private Date to;
@@ -19,23 +21,19 @@ public class Filter {
 
     public Filter(int step) {
         this.step = step;
+        setFromTo(new GregorianCalendar());
     }
 
     public int getStep() {
         return step;
     }
 
-    public void setStep(int step) {
-        this.step = step;
-        setFromTo(new GregorianCalendar());
+    public Date getFrom() {
+        return from;
     }
 
     public Date getTo() {
         return to;
-    }
-
-    public void setTo(Date to) {
-        this.to = to;
     }
 
     public void next() {
@@ -47,15 +45,13 @@ public class Filter {
     }
 
     public void nextPeriod() {
-        step++;
-        if (step > STEP_YEAR) {
-            step = STEP_DAY;
-        }
+        step += 1;
+        if (step > STEP_YEAR) step = STEP_DAY;
         setFromTo(new GregorianCalendar());
     }
 
     public boolean check(Date date) {
-        return date.compareTo(from) > 0 && date.compareTo(to) < 0;
+        return (date.compareTo(from) > 0) && (date.compareTo(to) < 0);
     }
 
     private void setFromTo(Calendar calendar) {
@@ -86,7 +82,6 @@ public class Filter {
                         23, 59, 59).getTime();
                 break;
             case STEP_YEAR:
-
                 this.from = new GregorianCalendar(
                         calendar.get(Calendar.YEAR),
                         0,
@@ -97,7 +92,6 @@ public class Filter {
                         11,
                         31,
                         23, 59, 59).getTime();
-                break;
         }
     }
 
@@ -106,15 +100,15 @@ public class Filter {
         calendar.setTime(from);
         switch (step) {
             case STEP_DAY:
-                calendar.add(Calendar.DAY_OF_MONTH, 1);
+                calendar.add(Calendar.DAY_OF_MONTH, i);
                 break;
             case STEP_MONTH:
-                calendar.add(Calendar.MONTH, 1);
+                calendar.add(Calendar.MONTH, i);
                 break;
             case STEP_YEAR:
-                calendar.add(Calendar.YEAR, 1);
-                break;
+                calendar.add(Calendar.YEAR, i);
         }
         setFromTo(calendar);
     }
+
 }

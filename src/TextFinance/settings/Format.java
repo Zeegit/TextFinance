@@ -61,6 +61,14 @@ public class Format {
         return sdf.format(date);
     }
 
+    public static String rate(double rate, Currency currency) {
+        return rate(rate) + " " + currency.getCode();
+    }
+
+    public static String rate(double rate) {
+        return String.format(Settings.FORMAT_RATE, rate);
+    }
+
     private static class MainDateFormatSymbols extends DateFormatSymbols {
         @Override
         public String[] getMonths() {
